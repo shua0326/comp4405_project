@@ -1,0 +1,16 @@
+services:
+  dehaze:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: comp4405-dehaze:latest
+    container_name: comp4405-dehaze
+    working_dir: /app
+    volumes:
+      - ./src:/app/src
+      - ./data:/app/data
+      - ./main.py:/app/main.py
+    environment:
+      - PYTHONPATH=/app
+    stdin_open: true
+    tty: true
