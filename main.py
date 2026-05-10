@@ -19,7 +19,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--guided-radius", type=int, default=constants.GUIDED_FILTER_RADIUS)
     parser.add_argument("--guided-eps", type=float, default=constants.GUIDED_FILTER_EPS)
     parser.add_argument("--gamma", type=float, default=constants.GAMMA)
+    parser.add_argument("--sky-brightness-threshold", type=float, default=constants.SKY_BRIGHTNESS_THRESHOLD)
+    parser.add_argument("--sky-dark-channel-threshold", type=float, default=constants.SKY_DARK_CHANNEL_THRESHOLD)
+    parser.add_argument("--sky-transmission", type=float, default=constants.SKY_TRANSMISSION)
     parser.add_argument("--skip-refinement", action="store_true")
+    parser.add_argument("--skip-sky-detection", action="store_true")
     return parser.parse_args()
 
 
@@ -35,7 +39,11 @@ def main() -> None:
         guided_radius=args.guided_radius,
         guided_eps=args.guided_eps,
         gamma=args.gamma,
+        sky_brightness_threshold=args.sky_brightness_threshold,
+        sky_dark_channel_threshold=args.sky_dark_channel_threshold,
+        sky_transmission=args.sky_transmission,
         skip_refinement=args.skip_refinement,
+        skip_sky_detection=args.skip_sky_detection,
     )
 
     if args.input.is_dir():

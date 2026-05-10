@@ -91,4 +91,4 @@ source venv/bin/activate
 pip install -r requirements.txt
 python main.py --input data/input --output data/output
 ```
-At this point in time, please run with --skip-refinment, as the guided filter refinement is not yet implemented.
+At this point in time, please run with --skip-refinment and --skip-sky-detection, as the guided filter refinement and the sky detection/transmission correction is not yet implemented.
