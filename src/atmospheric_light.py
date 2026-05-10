@@ -15,4 +15,10 @@ def estimate_atmospheric_light(
     top_percent: fraction of brightest dark-channel pixels to consider.
     Returns a 3-vector A.
     """
-    raise NotImplementedError
+
+    num_pixels = int(top_percent * dark_channel.size)
+    brightest_pixels = np.argsort(dark_channel, axis=None)[-num_pixels:]
+    brightest_pixels = np.unravel_index(brightest_pixels, dark_channel.shape)
+    candidates = image[brightest_pixels]
+    brightest_idx = np.argmax(np.sum(candidates, axis=1))
+    return candidates[brightest_idx]

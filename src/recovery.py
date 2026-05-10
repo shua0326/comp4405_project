@@ -13,9 +13,10 @@ def recover_scene_radiance(
 
         J(x) = (I(x) - A) / max(t(x), t_min) + A
     """
-    raise NotImplementedError
+    t = np.maximum(transmission, t_min)[..., None]
+    return (image - atmospheric_light) / t + atmospheric_light
 
 
 def gamma_correct(image: np.ndarray, gamma: float) -> np.ndarray:
     """Apply gamma correction for tonal adjustment after recovery."""
-    raise NotImplementedError
+    return image ** gamma

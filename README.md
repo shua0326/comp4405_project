@@ -84,7 +84,11 @@ docker compose run --rm dehaze \
 
 ## Running Without Docker
 
+Make a virtual environment and install dependencies:
 ```bash
+python -m venv venv
+source venv/bin/activate
 pip install -r requirements.txt
 python main.py --input data/input --output data/output
 ```
+At this point in time, please run with --skip-refinment, as the guided filter refinement is not yet implemented.
