@@ -14,3 +14,8 @@ data/output/*
 !data/input/.gitkeep
 !data/output/.gitkeep
 .python-version
+*.docx
+/data/input
+/data/output
+/docs
+/scripts/fill_report.py
