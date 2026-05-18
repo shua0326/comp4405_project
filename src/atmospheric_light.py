@@ -16,7 +16,7 @@ def estimate_atmospheric_light(
     Returns a 3-vector A.
     """
 
-    num_pixels = int(top_percent * dark_channel.size)
+    num_pixels = max(1, int(top_percent * dark_channel.size))
     brightest_pixels = np.argsort(dark_channel, axis=None)[-num_pixels:]
     brightest_pixels = np.unravel_index(brightest_pixels, dark_channel.shape)
     candidates = image[brightest_pixels]

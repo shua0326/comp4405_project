@@ -19,7 +19,8 @@ def detect_sky_mask(
     dark_channel: HxW float
     Returns HxW boolean array, True where sky is detected.
     """
-    raise NotImplementedError
+    brightness = np.mean(image, axis=2)
+    return (brightness >= brightness_threshold) & (dark_channel >= dark_channel_threshold)
 
 
 def apply_sky_transmission(
@@ -36,4 +37,6 @@ def apply_sky_transmission(
     sky_mask: HxW boolean
     Returns HxW float transmission map with sky regions corrected.
     """
-    raise NotImplementedError
+    corrected = transmission.copy()
+    corrected[sky_mask] = sky_transmission
+    return corrected

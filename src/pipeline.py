@@ -4,8 +4,16 @@ from pathlib import Path
 
 import numpy as np
 
+try:
+    from tqdm import tqdm
+except ImportError:
+    def tqdm(iterable, **_kwargs):
+        return iterable
+
+from .constants import IMAGE_EXTENSIONS
 from .dark_channel import estimate_dark_channel
 from .atmospheric_light import estimate_atmospheric_light
+from .io_utils import ensure_dir, list_images, read_image, write_image
 from .transmission import estimate_transmission
 from .sky_detection import detect_sky_mask, apply_sky_transmission
 from .refinement import refine_transmission
@@ -68,4 +76,30 @@ def process_directory(
     skip_sky_detection: bool = False,
 ) -> None:
     """Iterate over all images in input_dir, dehaze them, and write to output_dir."""
-    raise NotImplementedError
+    input_dir = Path(input_dir)
+    output_dir = ensure_dir(output_dir)
+
+    image_paths = list_images(input_dir, IMAGE_EXTENSIONS)
+
+    for image_path in tqdm(image_paths, desc="Dehazing images"):
+        relative_path = image_path.relative_to(input_dir)
+        output_path = output_dir / relative_path
+        ensure_dir(output_path.parent)
+
+        image = read_image(image_path)
+        result = dehaze_image(
+            image,
+            patch_size=patch_size,
+            omega=omega,
+            t_min=t_min,
+            atmos_top_percent=atmos_top_percent,
+            guided_radius=guided_radius,
+            guided_eps=guided_eps,
+            gamma=gamma,
+            sky_brightness_threshold=sky_brightness_threshold,
+            sky_dark_channel_threshold=sky_dark_channel_threshold,
+            sky_transmission=sky_transmission,
+            skip_refinement=skip_refinement,
+            skip_sky_detection=skip_sky_detection,
+        )
+        write_image(output_path, result)

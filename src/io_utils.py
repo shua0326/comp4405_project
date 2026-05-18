@@ -5,6 +5,8 @@ from pathlib import Path
 import numpy as np
 from PIL import Image
 
+from .postprocessing import to_uint8
+
 
 def list_images(directory: str | Path, extensions: list[str]) -> list[Path]:
     """Return all image paths under `directory` matching the given extensions."""
@@ -13,12 +15,14 @@ def list_images(directory: str | Path, extensions: list[str]) -> list[Path]:
 
 def read_image(path: str | Path) -> np.ndarray:
     """Load an image from disk as an RGB float array in [0, 1]."""
-    return np.array(Image.open(path)) / 255.0
+    return np.array(Image.open(path).convert("RGB")) / 255.0
 
 
 def write_image(path: str | Path, image: np.ndarray) -> None:
     """Write an image (RGB, float in [0, 1] or uint8) to disk."""
-    Image.fromarray((image * 255).astype(np.uint8)).save(path)
+    if image.dtype != np.uint8:
+        image = to_uint8(image)
+    Image.fromarray(image).save(path)
 
 
 def ensure_dir(path: str | Path) -> Path:

@@ -7,3 +7,7 @@ def clip_image(image: np.ndarray) -> np.ndarray:
     """Clip an image to [0, 1]."""
     return np.clip(image, 0, 1)
 
+
+def to_uint8(image: np.ndarray) -> np.ndarray:
+    """Convert a float image in [0, 1] to uint8."""
+    return (clip_image(image) * 255).round().astype(np.uint8)

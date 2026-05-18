@@ -47,6 +47,11 @@ Defaults live in `src/constants.py` and can be overridden via CLI:
 | `--guided-radius` | 60 | Guided filter radius |
 | `--guided-eps` | 1e-4 | Guided filter regularisation |
 | `--gamma` | 1.0 | Post-recovery gamma correction |
+| `--sky-brightness-threshold` | 0.9 | Brightness cutoff for sky detection |
+| `--sky-dark-channel-threshold` | 0.25 | Dark-channel cutoff for sky detection |
+| `--sky-transmission` | 0.9 | Fixed transmission used for detected sky pixels |
+| `--skip-refinement` | false | Skip guided-filter transmission refinement |
+| `--skip-sky-detection` | false | Skip sky detection and sky transmission correction |
 
 Example:
 
@@ -91,4 +96,3 @@ source venv/bin/activate
 pip install -r requirements.txt
 python main.py --input data/input --output data/output
 ```
-At this point in time, please run with --skip-refinment and --skip-sky-detection, as the guided filter refinement and the sky detection/transmission correction is not yet implemented.

@@ -19,4 +19,8 @@ def recover_scene_radiance(
 
 def gamma_correct(image: np.ndarray, gamma: float) -> np.ndarray:
     """Apply gamma correction for tonal adjustment after recovery."""
-    return image ** gamma
+    if gamma <= 0:
+        raise ValueError("gamma must be positive")
+    if gamma == 1.0:
+        return image
+    return np.power(np.clip(image, 0, None), 1.0 / gamma)
